@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Serge Balandine
+  description: Simple role to install REDCap
+  license: MIT
+  min_ansible_version: 1.9
+
+  github_branch: master
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+
+  galaxy_tags:
+    - redcap
+
+dependencies: []

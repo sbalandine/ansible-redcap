@@ -1,0 +1,15 @@
+---
+- block:
+  
+  - name: Include variables.
+    include_vars: "main.yml"
+
+  - name: Unzip REDCap
+    unarchive:
+      src: "{{ redcap_zipfile }}"
+      dest: /var/www/html/
+      owner: apache
+      group: apache
+
+  tags:
+    - redcap
