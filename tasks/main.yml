@@ -4,12 +4,19 @@
   - name: Include variables.
     include_vars: "main.yml"
 
-  # - name: Unzip REDCap
-  #   unarchive:
-  #     src: "{{ redcap_dir }}/redcap{{ redcap_version }}.zip"
-  #     dest: /opt/
-  #     owner: nginx
-  #     group: nginx
+  - name: Unzip REDCap
+    unarchive:
+      src: "./files/redcap{{ redcap_version }}.zip"
+      dest: /opt/
+      owner: nginx
+      group: nginx
+
+  - name: Drop REDCap DB
+    mysql_db:
+      login_user: "root"
+      login_password: "{{ mysql_root_password }}"
+      name: redcap
+      state: absent
   
   - name: Create REDCap DB
     mysql_db:

@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Serge Balandine
-  description: Simple role to install REDCap
+  description: REDCap for RHEL/CentOS.
   license: MIT
   min_ansible_version: 1.9
 
@@ -10,7 +10,6 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 7
         - 8
 
   galaxy_tags:
