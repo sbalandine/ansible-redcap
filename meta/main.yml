@@ -1,18 +1,19 @@
 ---
+# dependencies:
+#   - nginx
+#   - mysql
+#   - php-mysql
+#   - php
+
 galaxy_info:
   author: Serge Balandine
   description: REDCap for RHEL/CentOS.
+  company: Epicentre
   license: MIT
-  min_ansible_version: 1.9
-
-  github_branch: master
-
+  min_ansible_version: 2.4
   platforms:
     - name: EL
       versions:
         - 8
-
   galaxy_tags:
     - redcap
-
-dependencies: []

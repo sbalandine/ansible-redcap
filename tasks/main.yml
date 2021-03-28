@@ -4,6 +4,11 @@
   - name: Include variables.
     include_vars: "main.yml"
 
+  - name: Install dependencies
+    yum:
+      name: php-pecl-zip
+      state: latest
+
   - name: Unzip REDCap
     unarchive:
       src: "./files/redcap{{ redcap_version }}.zip"
@@ -11,19 +16,20 @@
       owner: nginx
       group: nginx
 
-  - name: Drop REDCap DB
-    mysql_db:
-      login_user: "root"
-      login_password: "{{ mysql_root_password }}"
-      name: redcap
-      state: absent
-  
+
+  - name: Check for REDCap DB existence
+    shell: >
+      mysql -u root -p{{ mysql_root_password }} -e "show databases" | fgrep redcap
+    register: redcap_exist
+    ignore_errors: True
+
   - name: Create REDCap DB
     mysql_db:
       login_user: "root"
       login_password: "{{ mysql_root_password }}"
       name: redcap
       state: present
+    when: redcap_exist.rc != 0 
 
   - name: Create REDCap user
     mysql_user:
@@ -41,6 +47,7 @@
       content: |
         UPDATE redcap_config SET value = '{{ redcap_version }}' WHERE field_name = 'redcap_version';
         UPDATE redcap_config SET value = 'http://51.178.38.253/redcap/' WHERE field_name = 'redcap_base_url';
+    when: redcap_exist.rc != 0 
 
   - name: Create REDCap Database
     mysql_db:
@@ -53,12 +60,13 @@
         - /opt/redcap/redcap_v{{ redcap_version }}/Resources/sql/install.sql
         - /opt/redcap/redcap_v{{ redcap_version }}/Resources/sql/install_data.sql
         - /opt/redcap/redcap_v{{ redcap_version }}/Resources/sql/setup.sql
+    when: redcap_exist.rc != 0 
 
   - name: Add default for MySQL connection.
     lineinfile: >
       dest=/opt/redcap/database.php
       state=present
-      regexp="^\\${{ item.key }}"
+      regexp="^\\${{ item.key }} "
       line="${{ item.key }} = '{{ item.value }}';"
       mode=0644
     with_items:
@@ -87,6 +95,11 @@
       src:  /opt/redcap
       dest: /usr/share/nginx/html/redcap
       state: link
+
+  - name: Create REDCap Cron
+    cron:
+      name: "REDCap"
+      job: "/usr/bin/php /opt/redcap/cron.php > /dev/null"
 
   tags:
     - redcap
