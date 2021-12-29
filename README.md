@@ -1,49 +1,36 @@
-[![Build Status](https://travis-ci.org/Nani-o/ansible-role-mono.svg?branch=master)](https://travis-ci.org/Nani-o/ansible-role-mono)
+# Ansible Role: redcap
 
-mono
-====
+> **Beta:** This role is in beta status.
 
-The only purpose of this role is to install Mono (the cross platform and open source .NET framework) on Linux hosts.
+## Description
+...
 
-Compatibility
--------------
+## Installation
 
-  - CentOS 8
+```bash
+ansible-galaxy install sbalandine.restic
+```
+## Requirements
 
-Variables
----------
+## Role Variables
 
-- mono_package
+| Name                   | Default                             | Description                                                                 |
+| ---------------------- | ----------------------------------- | --------------------------------------------------------------------------- |
+## Dependencies
+none
+## Example Playbook
 
-By default this variable is set to mono-devel. You can set it to whatever you like.
-
-```YAML
-mono_package: mono-complete
+```yml
+- hosts: all
+  roles:
+    - redcap
 ```
 
-- mono_extra_packages
+## Author
 
-Set this variable if you want to add packages with mono-devel.
+## License
 
-```YAML
-mono_extra_packages:
-  - ca-certificates-mono
-  - mono-locale-extras
-```
+This project is under the MIT License. See the [LICENSE](https://sbaerlo.ch/licence) file for the full license text.
 
-Example Playbook
-----------------
+## Copyright
 
-    - hosts: servers
-      roles:
-         - { role: mono }
-
-License
--------
-
-MIT
-
-Author Information
-------------------
-
-Sofiane MEDJKOUNE
