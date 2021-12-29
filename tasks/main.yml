@@ -11,7 +11,7 @@
 
   - name: Unzip REDCap
     unarchive:
-      src: "./files/redcap{{ redcap_version }}.zip"
+      src: "./files/redcap.zip"
       dest: /opt/
       owner: nginx
       group: nginx
